@@ -10,6 +10,10 @@ from tornado import gen
 
 from .base import BaseHandler
 
+import subprocess 
+ACTUAL_IP = subprocess.getoutput('wget http://ipinfo.io/ip -qO -').strip()
+PORT = 80
+
 
 class LogoutHandler(BaseHandler):
     """Log a user out by clearing their login cookie."""
@@ -38,6 +42,12 @@ class LoginHandler(BaseHandler):
         )
 
     def get(self):
+        #Redirect to actual IP if it was proxied through the ELB 
+        if self.request.host.endswith('elb.amazonaws.com'): 
+            self.log.info('Redirecting ELB connection to {}'.format(ACTUAL_IP))
+            self.redirect('http://{}:{}'.format(ACTUAL_IP,PORT),permanent=False)
+            return 
+
         self.statsd.incr('login.request')
         next_url = self.get_argument('next', '')
         if (next_url + '/').startswith('%s://%s/' % (self.request.protocol, self.request.host)):
