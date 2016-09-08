@@ -42,6 +42,6 @@ c.Authenticator.admin_users = {'anna','cs','johnny','irene','jin','anshul'}#)#, 
 # with ~/assignments/Welcome.ipynb as the default landing page
 # this config could also be put in
 # /etc/ipython/ipython_notebook_config.py
-c.Spawner.notebook_dir = '~/tutorial/examples/'
+c.Spawner.notebook_dir = '~'
 #c.Spawner.args = ['--NotebookApp.default_url=/notebooks/Welcome.ipynb']
 c.Spawner.args=['--NotebookApp.allow_origin=*']
