@@ -57,6 +57,24 @@ RUN python setup.py js && pip install . && \
 
 RUN pip install notebook
 
+#conda 2 & conda 3 environments 
+RUN conda create -n py3 python=3 anaconda
+RUN conda create -n py2 python=2 anaconda
+
+# register py2 kernel
+RUN source activate py2
+#make sure to install with --user flag to avoid permissions issues 
+RUN ipython kernel install --user
+
+# register py3 kernel 
+RUN source activate py3
+#make sure to install with --user flag to avoid permissions issues 
+RUN ipython kernel install --user 
+#install bash kernel 
+RUN git clone https://github.com/takluyver/bash_kernel
+RUN pip install bash_kernel 
+RUN python -m bash_kernel.install 
+RUN source deactivate 
 
 RUN mkdir -p /srv/jupyterhub/
 WORKDIR /srv/jupyterhub/
