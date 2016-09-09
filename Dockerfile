@@ -44,6 +44,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.0.5-Linux-x86_64.sh
     /opt/conda/bin/pip install --upgrade pip && \
     rm /tmp/miniconda.sh
 ENV PATH=/opt/conda/bin:$PATH
+RUN echo "export PATH=/opt/conda/bin:$PATH" >> /etc/bash.bashrc 
 
 # install js dependencies
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
@@ -55,6 +56,7 @@ RUN python setup.py js && pip install . && \
     rm -rf $PWD ~/.cache ~/.npm
 
 RUN pip install notebook
+
 
 RUN mkdir -p /srv/jupyterhub/
 WORKDIR /srv/jupyterhub/
