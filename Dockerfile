@@ -22,13 +22,13 @@
 # from your docker directory.
 
 FROM debian:jessie
-MAINTAINER Jupyter Project <jupyter@googlegroups.com>
+MAINTAINER Kundaje Lab (forked from Jupyter project) 
 
 # install nodejs, utf8 locale
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get -y install npm nodejs nodejs-legacy wget locales git &&\
+    apt-get -y install npm nodejs nodejs-legacy wget locales git node-less &&\
     /usr/sbin/update-locale LANG=C.UTF-8 && \
     locale-gen C.UTF-8 && \
     apt-get remove -y locales && \
@@ -44,7 +44,7 @@ RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.0.5-Linux-x86_64.sh
     /opt/conda/bin/pip install --upgrade pip && \
     rm /tmp/miniconda.sh
 ENV PATH=/opt/conda/bin:$PATH
-RUN echo "export PATH=/opt/conda/bin:$PATH" >> /etc/bash.bashrc 
+
 
 # install js dependencies
 RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
@@ -52,8 +52,7 @@ RUN npm install -g configurable-http-proxy && rm -rf ~/.npm
 ADD . /src/jupyterhub
 WORKDIR /src/jupyterhub
 
-RUN python setup.py js && pip install . && \
-    rm -rf $PWD ~/.cache ~/.npm
+RUN python setup.py js && pip install . && rm -rf $PWD ~/.cache ~/.npm
 
 RUN pip install notebook
 
