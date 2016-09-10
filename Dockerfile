@@ -63,7 +63,7 @@ RUN conda create -n py2 python=2 anaconda
 
 # register py2 kernel
 
-RUN source /opt/conda/bin/active  py2
+RUN source /opt/conda/bin/activate  py2
 #RUN ["/bin/bash", "source", "activate", "py2"]
 #make sure to install with --user flag to avoid permissions issues 
 RUN ipython kernel install --user
