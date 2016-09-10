@@ -21,21 +21,21 @@
 # your jupyterhub_config.py will be added automatically
 # from your docker directory.
 
-FROM debian:jessie
+FROM ubuntu:14.04 
 MAINTAINER Kundaje Lab (forked from Jupyter project) 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # install nodejs, utf8 locale
-ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get -y install npm nodejs nodejs-legacy wget locales git node-less &&\
-    /usr/sbin/update-locale LANG=C.UTF-8 && \
-    locale-gen C.UTF-8 && \
-    apt-get remove -y locales && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-ENV LANG C.UTF-8
+#ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get -y update  
+RUN apt-get -y upgrade  
+RUN apt-get -y install npm nodejs nodejs-legacy wget locales git node-less 
+#    /usr/sbin/update-locale LANG=C.UTF-8 && \
+#    locale-gen C.UTF-8 && \
+#    apt-get remove -y locales && \
+#    apt-get clean && \
+#    rm -rf /var/lib/apt/lists/*
+#ENV LANG C.UTF-8
 
 # install Python with conda
 RUN wget -q https://repo.continuum.io/miniconda/Miniconda3-4.0.5-Linux-x86_64.sh -O /tmp/miniconda.sh  && \
@@ -67,7 +67,7 @@ RUN source /opt/conda/bin/activate  py2
 #RUN ["/bin/bash", "source", "activate", "py2"]
 #make sure to install with --user flag to avoid permissions issues 
 RUN ipython kernel install --user
-#RUN source /opt/conda/bin/deactivate 
+RUN source /opt/conda/bin/deactivate 
 #RUN ["/bin/bash","source","deactivate"] 
 
 # register py3 kernel 
