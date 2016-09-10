@@ -89,5 +89,5 @@ EXPOSE 8000
 LABEL org.jupyter.service="jupyterhub"
 
 ONBUILD ADD jupyterhub_config.py /srv/jupyterhub/jupyterhub_config.py
-CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py", "--no-ssl", "--port 80"]
+CMD ["jupyterhub", "-f", "/srv/jupyterhub/jupyterhub_config.py", "--no-ssl", "--port","80"]
 
