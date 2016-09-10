@@ -1,1 +1,1 @@
-jupyterhub -f jupyter_config.py --no-ssl --port 80
+jupyterhub -f jupyterhub_config.py --no-ssl --port 80
