@@ -23,6 +23,7 @@
 
 FROM debian:jessie
 MAINTAINER Kundaje Lab (forked from Jupyter project) 
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # install nodejs, utf8 locale
 ENV DEBIAN_FRONTEND noninteractive
@@ -61,19 +62,25 @@ RUN conda create -n py3 python=3 anaconda
 RUN conda create -n py2 python=2 anaconda
 
 # register py2 kernel
-RUN source activate py2
+
+RUN source /opt/conda/bin/active  py2
+#RUN ["/bin/bash", "source", "activate", "py2"]
 #make sure to install with --user flag to avoid permissions issues 
 RUN ipython kernel install --user
+#RUN source /opt/conda/bin/deactivate 
+#RUN ["/bin/bash","source","deactivate"] 
 
 # register py3 kernel 
-RUN source activate py3
+RUN source /opt/conda/bin/activate py3
+#RUN ["/bin/bash", "source", "activate","py3"] 
 #make sure to install with --user flag to avoid permissions issues 
 RUN ipython kernel install --user 
 #install bash kernel 
 RUN git clone https://github.com/takluyver/bash_kernel
 RUN pip install bash_kernel 
 RUN python -m bash_kernel.install 
-RUN source deactivate 
+RUN source /opt/conda/bin/deactivate 
+#RUN ["/bin/bash","source","deactivate"] 
 
 RUN mkdir -p /srv/jupyterhub/
 WORKDIR /srv/jupyterhub/
