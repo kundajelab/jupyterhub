@@ -43,7 +43,7 @@ class LoginHandler(BaseHandler):
 
     def get(self):
         #Redirect to actual IP if it was proxied through the ELB 
-        if self.request.host.endswith('elb.amazonaws.com'): 
+        if self.request.host.endswith('elb.amazonaws.com') or 'artisanalgenomics' in self.request.host: 
             self.log.info('Redirecting ELB connection to {}'.format(ACTUAL_IP))
             self.redirect('http://{}:{}'.format(ACTUAL_IP,PORT),permanent=False)
             return 
